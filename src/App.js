@@ -1,24 +1,36 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState, useEffect, useRef } from 'react'
+import ClipLoader from 'react-spinners/ClipLoader';
+
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  const toggleLoading = () => {
+    setLoading(!loading)
+  }
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+    <div className="container">
+        <button onClick={toggleLoading}>Toggle</button>
+    {loading ? (
+      <div className="loader-container">
+        <ClipLoader color={'#33fff0'} size={60} />
+      </div>
+    ) : (
+      <div className="main-content">
+        <h1>Hello World!</h1>
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          This is a demo Project to show how to add animated loading with
+          React.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+
+
+      </div>
+    )}
+  </div>
   );
 }
 
