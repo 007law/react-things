@@ -36,3 +36,26 @@
     transform: rotate(360deg);
   }
 }
+
+/*****css for loading-spinner****/
+.loading-center{
+  justify-content: center;
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -50px 0 0 -50px;
+  z-index: 10;
+}
+/*****css for loading-spinner****/
+
+
+/***css for user***/
+.div-center {
+  margin: auto;
+  width: 50%;
+  border: 3px solid green;
+  padding: 10px;
+  text-align: center;
+}
+/******************/
