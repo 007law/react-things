@@ -51,11 +51,19 @@
 
 
 /***css for user***/
-.div-center {
+/* .div-center {
   margin: auto;
   width: 50%;
   border: 3px solid green;
   padding: 10px;
+  text-align: center;
+} */
+.div-center {
+  margin: auto;
+  width: 50%;
+  border: 5px solid transparent;
+  border-image: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);
+  border-image-slice: 1;
   text-align: center;
 }
 /******************/

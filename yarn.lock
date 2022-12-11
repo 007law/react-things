@@ -8044,6 +8044,11 @@ react-app-polyfill@^3.0.0:
     regenerator-runtime "^0.13.9"
     whatwg-fetch "^3.6.2"
 
+react-bootstrap-sweetalert@^5.2.0:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/react-bootstrap-sweetalert/-/react-bootstrap-sweetalert-5.2.0.tgz#a58bc9fa863eaf518a78b6d0716a25f32182d570"
+  integrity sha512-7eaKHgDcYfoRUxiYPZuHjygeLa3yDycGWB+Xwr+PWo6h0HDixwfgGXqWBmDYXI4ZQ453BcY77iBWBZhRbnH/6g==
+
 react-bootstrap@^2.6.0:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-2.6.0.tgz#bd125889cc9d2bbd7c89334a7c54980ff0a65b94"
@@ -8204,6 +8209,13 @@ react-spinners@^0.13.7:
   version "0.13.7"
   resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.13.7.tgz#0f423c415bfa56765ce9fb36ff604e52a92b37a9"
   integrity sha512-mRamn56bfxWbGcacif5RT3UbeJaXi2AttjtPwSmomuv2IcxjpbfETCzdTvaQpNDk0E33ENJsStsQeKAZFuJcpA==
+
+react-sweetalert2@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/react-sweetalert2/-/react-sweetalert2-0.5.2.tgz#83f60963669fd4ab9e193beb7f1c56a1a5934cd7"
+  integrity sha512-6BxyApbQT1prCG5KUBTkc3+64CWpKAJCjd0Bvv+pmwEGYI9QeaDoH/sP8NeM4cMZgEplFsq6B/8noHoF1w/nzA==
+  dependencies:
+    sweetalert2 "^11.3.5"
 
 react-transition-group@^4.4.2:
   version "4.4.5"
@@ -9033,6 +9045,11 @@ svgo@^2.7.0:
     csso "^4.2.0"
     picocolors "^1.0.0"
     stable "^0.1.8"
+
+sweetalert2@^11.3.5:
+  version "11.6.15"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.6.15.tgz#0459e97100810b0734c62d2cce4d3d41c8f30b0a"
+  integrity sha512-FqMy1gRGHEI5G145NE5XSP059TziCJu9Xf9/mkki/aKu5pLNcYzjggOzKO5Ex10EBgAGDXQ99jyGfYYzGCYXRQ==
 
 symbol-tree@^3.2.4:
   version "3.2.4"
