@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Main from './Main';
+
+
 let userProfile = null ;
 function User(){
 const [user, setUser] = useState('')
@@ -17,7 +19,7 @@ const [userCreatedStatus, setUserStatus] = useState(false)
 
 const onUserNameChanged = (event) => {
     setUser(event.target.value)
-    setMessageCSS('Unique name will be fun!')
+    setMessage('Unique name will be fun!')
     setMessageCSS('text-muted')
   }
 
@@ -60,7 +62,7 @@ const handleSubmit = (event) => {
   userCreatedStatus ? 
   <div>
     Have fun, {user}
-    <Main/>
+    <Main isFirstLoad={true}/>
   </div>
   :
   <div>
@@ -80,7 +82,10 @@ const handleSubmit = (event) => {
                   <Form.Group className="mb-3" controlId="formBasicName">
                       <Form.Label>Name</Form.Label>
                           <Form.Control type="name" placeholder="Enter your name" value={user} onChange={onUserNameChanged}
-                          required/>
+                          required
+                          className={'w-50 mx-auto'}
+                          autoComplete={"off"}
+                          />
                           <Form.Control.Feedback type="invalid">
                             Please choose a username.
                           </Form.Control.Feedback>
@@ -90,8 +95,11 @@ const handleSubmit = (event) => {
                           
                   </Form.Group>
                 <Button variant="primary" type="submit" onClick={handleSubmit}>
-                            Start the game!
+                            Start the game! 🚀
                 </Button>
+               <Row>
+                <Col>&nbsp;</Col>
+               </Row>
               </Form>
             </div>
             </Col>

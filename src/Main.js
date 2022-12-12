@@ -11,21 +11,49 @@ import Scoreboard from './Scoreboard';
 import {BrowserRouter,Routes,Route, useParams, useNavigate, NavLink} from 'react-router-dom'
 import User from "./User";
 import GuessCountry from "./GuessCountry";
+import ViewAllFlags from './ViewAllFlags';
 
-function Main(){
+function Main(props){
+    const [isFirstLoad, setFirstLoad] = useState(props.isFirstLoad)
+    useEffect(()=>{
+      // console.log('Test: '+props.isFirstLoad)
+      // if (isFirstLoad){
+      //   setFirstLoad(!isFirstLoad)
+      //     navigate('/guesscountry')
+      // }
+    })
 
     return(
         <div>
         <BrowserRouter>
             <h1>🇲🇾 Guess the Flag! 🇲🇾</h1>
-            <nav>
-                <NavLink to={"/guesscountry"}>Play Guess Country By Flag</NavLink><br/>
-                <NavLink to={"/scoreboard"}>Scoreboard</NavLink><br/>
+            <nav className=''>
+                <NavLink to={"/guesscountry"}
+                  style={({ isActive }) => ({
+                    color: isActive ? '#fff' : '#545e6f',
+                    background: isActive ? '#7600dc' : '#f0f0f0',
+                  })}
+                >Play Guess Country By Flag</NavLink><br/><br/>
+
+                <NavLink to={"/scoreboard"}
+                  style={({ isActive }) => ({
+                    color: isActive ? '#fff' : '#545e6f',
+                    background: isActive ? '#7600dc' : '#f0f0f0',
+                  })}
+                >Scoreboard</NavLink><br/><br/>
+
+                <NavLink to={"/viewallflags"}
+                  style={({ isActive }) => ({
+                    color: isActive ? '#fff' : '#545e6f',
+                    background: isActive ? '#7600dc' : '#f0f0f0',
+                  })}
+                >View All Flags</NavLink><br/>
             </nav>
             <Routes>
             <Route path="/" element={<GuessCountry />}></Route>
             <Route path="/guesscountry" element={<GuessCountry />}></Route>
             <Route path="/scoreboard" element={<Scoreboard />}></Route>
+            <Route path="/viewallflags" element={<ViewAllFlags />}></Route>
             <Route path="*" element={<p>Page not found</p>}/>
             </Routes>
       </BrowserRouter>

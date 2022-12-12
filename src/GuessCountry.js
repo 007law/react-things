@@ -1,5 +1,6 @@
 import {useState, useEffect, useRef } from 'react'
 import { getDatabase, ref, set, push, child, update } from "firebase/database";
+import { BrowserRouter, NavLink, Route, Routes, Link, useParams, Outlet, useNavigate} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -8,14 +9,15 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import {userProfile} from "./User";
-
+let finalScore = null ;
 
 //https://restcountries.com/v3.1/all
 function GuessCountry(){
     const getCountryListURL = `https://restcountries.com/v3.1/all`
     const [score, setScore] = useState(0)
     const [isFirstLoad, setFirstLoad] = useState(true)
-    const [quizNo, setQuizNo] = useState(0)
+    const params = useParams()
+    const [mode, setMode] = useState(params.mode ? params.mode : '')
     const [selectedOption, setSelectedOption] = useState(null)
     const [correctAnswerNo, setAnswerNo] = useState(0)
     const [wrongAttemptNo, setWrongAttemptNo] = useState(0)
@@ -29,8 +31,8 @@ function GuessCountry(){
     const [optionsCss, setOptionsCss] = useState(['primary','primary','primary','primary'])
     const [second, setSecond] = useState(3) 
     const [runTimer, setTimerRun] = useState(false) 
-
-    const generateQuiz = () =>{
+    const navigate = useNavigate()
+    const generateQuiz = () =>{      
         const min = 0;
         const max = countryList.length;
         const randomNoArr = [];
@@ -71,7 +73,7 @@ function GuessCountry(){
        //console.log(selectedCountry+' '+optionNo)
 
         if (selectedCountry == null && optionNo == -1){
-            console.log('calling here 1')
+            //console.log('calling here 1')
             setWrongAttemptIcon([
                 ...wrongAttemptIcon.slice(0,wrongAttemptNo),
                 '❌',
@@ -91,7 +93,7 @@ function GuessCountry(){
                 setScore(score+1)
             }
             else{
-                console.log('calling here 2')
+                //console.log('calling here 2')
                 oriOptionsCSS.fill('danger disabled')
                 oriOptionsCSS[correctAnswerNo]='success disabled';
                 setOptionsCss([
@@ -118,12 +120,20 @@ function GuessCountry(){
           ,scoreDT: Date.now()
         };
         update(ref(db), updates);
-        alert('Your total score is :' +score)
+        setFinalScore()
+        navigate('/scoreboard')
+        document.getElementsByTagName("a")[0].style.color = "#545e6f"; 
+        document.getElementsByTagName("a")[0].style.background = "#f0f0f0"; 
+        // alert('Your total score is :' +score)
     }
 
     const toggleTimer = () => {
         setTimerRun(!runTimer)
     }
+
+    const setFinalScore = () =>{
+        finalScore = score
+      }
 
     useEffect(() =>{
     if (wrongAttemptNo == 3){ //0,1,2
@@ -132,7 +142,6 @@ function GuessCountry(){
     },[wrongAttemptNo,wrongAttemptIcon])
 
     useEffect(() =>{
-        //console.log('Run timer: '+runTimer+' - '+second + ' second remaining')
         let timer = null 
         const tick = () => {
             setSecond(second - 1)
@@ -165,6 +174,8 @@ function GuessCountry(){
         }
 
         if (isFirstLoad){
+            document.getElementsByTagName("a")[0].style.color = "#fff"; 
+            document.getElementsByTagName("a")[0].style.background = "#7600dc"; 
             const result = fetch(getCountryListURL)        
                         .then(response => response.json())
                         .then(data =>{
@@ -172,8 +183,12 @@ function GuessCountry(){
                             setCountryList(data.map(x => {
                                 return {...x, isShown:false}
                             }))
+                            // console.log(data)
                             toggleTimer();                                              
                          });  
+            // set first nav active
+
+                    
         }
 
         return () => clearInterval(timer)
@@ -181,63 +196,68 @@ function GuessCountry(){
 
     return(
         <div className='div-center'>
+             {
+            country == null 
+            ? <h4>Game will start in {second}</h4>
+            : 
             <Container>
-                <Row>
-                    <Col> <p>What is the name of country?</p></Col>
-                </Row>
-                <Row>
-                    <Col><h4>Score: {score}</h4></Col>
+            <Row>
+                <Col> <p>What is the name of country?</p></Col>
+            </Row>
+            <Row>
+                <Col><h4>Score: {score}</h4></Col>
+               
+                <Col>
+                    {country == null ?  (<h4>Game will start in {second}</h4>) : (<h4>Remaining: {second} second(s)</h4> ) }
                    
-                    <Col>
-                        {/* <Button variant="primary" type="submit" onClick={generateQuiz}>
-                                    Skip!
-                        </Button> */}
-                        {country == null ?  (<h4>Game will start in {second}</h4>) : (<h4>Remaining: {second} second(s)</h4> ) }
-                       
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>{wrongAttemptIcon[0]}&nbsp;{wrongAttemptIcon[1]}&nbsp;{wrongAttemptIcon[2]}</Col>
-                </Row>
-                <Row>
-                    <Col>
-                         <Image style={{border:"2px solid black"}} src={country == null ? 'https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg' :country.flags.svg} fluid />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>&nbsp;</Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {/* <Button variant={optionsCss[0]} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);setSelectedOption();}}> */}
-                        <Button variant={optionsCss[0]} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);}}>
-                                    {option1 == null ? '' : option1.name.common}
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button variant={optionsCss[1]} type="submit" onClick={() => verifyAnswerSelected(option2, 1)}>
-                                    {option2 == null ? '' :option2.name.common}
-                        </Button>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>&nbsp;</Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Button variant={optionsCss[2]} type="submit" onClick={() => verifyAnswerSelected(option3, 2)}>
-                                    {option3 == null ? '' : option3.name.common}
-                        </Button>
-                    </Col>
-                    <Col>
-                        <Button variant={optionsCss[3]} type="submit" onClick={() => verifyAnswerSelected(option4, 3)}>
-                                    {option4 == null ? '' : option4.name.common}
-                        </Button>
-                    </Col>
-                </Row>
-            </Container>
+                </Col>
+            </Row>
+            <Row>
+                <Col><h2>{wrongAttemptIcon[0]}&nbsp;{wrongAttemptIcon[1]}&nbsp;{wrongAttemptIcon[2]}</h2></Col>
+            </Row>
+            <Row>
+            <Col>&nbsp;</Col>
+                <Col xs={6}>
+                     <Image style={{border:"2px solid black"}} src={country == null ? 'https://miro.medium.com/max/880/0*H3jZONKqRuAAeHnG.jpg' :country.flags.svg} fluid />
+                </Col>
+                <Col>&nbsp;</Col>
+            </Row>
+            <Row>
+                <Col>&nbsp;</Col>
+            </Row>
+            <Row>
+                <Col>
+                    {/* <Button variant={optionsCss[0]} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);setSelectedOption();}}> */}
+                    <Button variant={optionsCss[0]} title={option1.flag} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);}}>
+                                {option1 == null ? '' : option1.name.common}
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant={optionsCss[1]} title={option2.flag} type="submit" onClick={() => verifyAnswerSelected(option2, 1)}>
+                                {option2 == null ? '' :option2.name.common}
+                    </Button>
+                </Col>
+            </Row>
+            <Row>
+                <Col>&nbsp;</Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Button variant={optionsCss[2]} title={option3.flag} type="submit" onClick={() => verifyAnswerSelected(option3, 2)}>
+                                {option3 == null ? '' : option3.name.common}
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant={optionsCss[3]} title={option4.flag} type="submit" onClick={() => verifyAnswerSelected(option4, 3)}>
+                                {option4 == null ? '' : option4.name.common}
+                    </Button>
+                </Col>
+            </Row>
+        </Container>
+            }
+           
         </div>
     )
 }
-
+export {finalScore}
 export default GuessCountry
