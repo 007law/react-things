@@ -46,7 +46,8 @@ function Scoreboard(){
     //    if (scoreArr != null){
     //     console.log(scoreArr)
     //    }
-   
+    document.getElementsByTagName("a")[0].style.color = "#545e6f"; 
+    document.getElementsByTagName("a")[0].style.background = "#f0f0f0"; 
 
     if (scoreArr == null){
         displayScoreBoard()
