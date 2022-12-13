@@ -51,7 +51,7 @@ function Scoreboard(){
 
     if (scoreArr == null){
         displayScoreBoard()
-        console.log(finalScore)
+        //console.log(finalScore)
         if (finalScore != null){
             alert('Your total score is :' +finalScore)
         }

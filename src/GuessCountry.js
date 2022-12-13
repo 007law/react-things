@@ -63,17 +63,23 @@ function GuessCountry(){
             ...oriOptionsCSS
         ])
         setSelectedOption(null)
+
+        // console.log('option1: '+countryList[randomNoArr[0]])
+        // console.log('option2: '+countryList[randomNoArr[1]])
+        // console.log('option3: '+countryList[randomNoArr[2]])
+        // console.log('option4: '+countryList[randomNoArr[3]])
     }
 
 
     const verifyAnswerSelected= (selectedCountry, optionNo) => {
         setSelectedOption(optionNo)
-        // console.log(optionNo)
        const oriOptionsCSS = optionsCss
-       //console.log(selectedCountry+' '+optionNo)
-
+        console.log('optionNo: '+ optionNo)
+    //    console.log('Object for: '+selectedCountry.name.common)
+    //    console.log('selectedCountry: '+ selectedCountry)
+      
         if (selectedCountry == null && optionNo == -1){
-            //console.log('calling here 1')
+            console.log('calling here 1')
             setWrongAttemptIcon([
                 ...wrongAttemptIcon.slice(0,wrongAttemptNo),
                 '❌',
@@ -83,6 +89,7 @@ function GuessCountry(){
            
         }
         else{
+
             if (selectedCountry.name.common == country.name.common){
                 setOptionsCss([
                     ...oriOptionsCSS.slice(0,optionNo),
@@ -93,7 +100,7 @@ function GuessCountry(){
                 setScore(score+1)
             }
             else{
-                //console.log('calling here 2')
+                console.log('calling here 2')
                 oriOptionsCSS.fill('danger disabled')
                 oriOptionsCSS[correctAnswerNo]='success disabled';
                 setOptionsCss([
@@ -105,7 +112,9 @@ function GuessCountry(){
                     ...wrongAttemptIcon.slice(wrongAttemptNo+1)
                 ])
                 setWrongAttemptNo(wrongAttemptNo + 1)
+
             }
+
         }
     }
 
@@ -145,12 +154,13 @@ function GuessCountry(){
         let timer = null 
         const tick = () => {
             setSecond(second - 1)
-            //console.log(second + ' selectedOption: '+selectedOption)
+           // console.log(second + ' selectedOption: '+selectedOption)
             if (second == 1 && (country == null || selectedOption != null)){
                 setSecond(5)
                 generateQuiz()  
             }
             else if (second == 1 && selectedOption == null){
+                console.log('no detected select option')
                  verifyAnswerSelected(null,-1)
                  setSecond(5)
                  generateQuiz()  
@@ -185,10 +195,7 @@ function GuessCountry(){
                             }))
                             // console.log(data)
                             toggleTimer();                                              
-                         });  
-            // set first nav active
-
-                    
+                         });                      
         }
 
         return () => clearInterval(timer)
@@ -228,7 +235,7 @@ function GuessCountry(){
             <Row>
                 <Col>
                     {/* <Button variant={optionsCss[0]} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);setSelectedOption();}}> */}
-                    <Button variant={optionsCss[0]} title={option1.flag} type="submit" onClick={() => {verifyAnswerSelected(option1, 0);}}>
+                    <Button variant={optionsCss[0]} title={option1.flag} type="submit" onClick={() => verifyAnswerSelected(option1, 0)}>
                                 {option1 == null ? '' : option1.name.common}
                     </Button>
                 </Col>
